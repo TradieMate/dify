@@ -69,10 +69,7 @@ RUN python -c "import tiktoken; tiktoken.encoding_for_model('gpt2')"
 # Copy source code
 COPY . /app/api/
 
-# Set executable permission for entrypoint
-RUN chmod +x /app/api/entrypoint.sh
-
 ARG COMMIT_SHA
 ENV COMMIT_SHA=${COMMIT_SHA}
 
-ENTRYPOINT ["/bin/bash", "/app/api/entrypoint.sh"]
+CMD ["python", "app.py"]
