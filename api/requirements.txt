@@ -74,3 +74,5 @@ weave~=0.51.0
 yarl~=1.18.3
 webvtt-py~=0.5.1
 sendgrid~=6.12.3
+cloudscraper
+opendal
