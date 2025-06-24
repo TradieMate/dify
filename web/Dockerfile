@@ -62,11 +62,10 @@ COPY --from=builder /app/web/.next/static ./.next/static
 COPY entrypoint.sh ./entrypoint.sh
 
 
-# global runtime packages
-RUN pnpm add -g pm2 \
-    && mkdir /.pm2 \
-    && chown -R 1001:0 /.pm2 /app/web \
-    && chmod -R g=u /.pm2 /app/web
+# Set permissions
+RUN chown -R 1001:0 /app/web \
+    && chmod -R g=u /app/web \
+    && chmod +x ./entrypoint.sh
 
 ARG COMMIT_SHA
 ENV COMMIT_SHA=${COMMIT_SHA}
