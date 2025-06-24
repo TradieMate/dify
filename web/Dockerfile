@@ -16,22 +16,10 @@ FROM base AS packages
 
 WORKDIR /app/web
 
-# Copy package files with error handling
 COPY package.json ./
-# Use wildcard to handle missing pnpm-lock.yaml gracefully
-COPY pnpm-lock.yaml* ./
+COPY . ./
 
-# if you located in China, you can use taobao registry to speed up
-# RUN pnpm install --frozen-lockfile --registry https://registry.npmmirror.com/
-
-# Install with fallback if no lockfile
-RUN if [ -f "pnpm-lock.yaml" ]; then \
-        echo "Using pnpm-lock.yaml for frozen install" && \
-        pnpm install --frozen-lockfile; \
-    else \
-        echo "No pnpm-lock.yaml found, installing without lockfile" && \
-        pnpm install; \
-    fi
+RUN pnpm install
 
 # build resources
 FROM base AS builder
