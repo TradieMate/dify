@@ -19,6 +19,50 @@ This repository has been optimized for deployment on Render. The following files
 2. A PostgreSQL database (can be created on Render)
 3. A Redis instance (can be created on Render)
 
+### Deployment Options
+
+#### Option 1: Docker Deployment (Recommended)
+
+Dify includes optimized Dockerfiles for both API and Web services.
+
+**API Service (Python/Flask)**
+1. Create a new Web Service on Render
+2. Connect your GitHub repository
+3. Configure the service:
+   - **Root Directory**: `api`
+   - **Dockerfile Path**: `api/Dockerfile`
+   - **Docker Command**: Leave empty (uses ENTRYPOINT)
+   - **Environment**: Docker
+
+**Web Service (Next.js)**
+1. Create a new Web Service on Render
+2. Connect your GitHub repository  
+3. Configure the service:
+   - **Root Directory**: `web`
+   - **Dockerfile Path**: `web/Dockerfile`
+   - **Docker Command**: Leave empty (uses ENTRYPOINT)
+   - **Environment**: Docker
+
+#### Option 2: Native Buildpack Deployment
+
+**API Service (Python)**
+1. Create a new Web Service on Render
+2. Connect your GitHub repository
+3. Configure the service:
+   - **Root Directory**: `api`
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `python app.py`
+   - **Environment**: Python 3
+
+**Web Service (Node.js)**
+1. Create a new Web Service on Render
+2. Connect your GitHub repository  
+3. Configure the service:
+   - **Root Directory**: `web`
+   - **Build Command**: `pnpm install && pnpm build`
+   - **Start Command**: `pnpm start`
+   - **Environment**: Node.js
+
 ### Environment Variables
 
 #### For the API Service
