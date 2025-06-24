@@ -16,22 +16,13 @@ FROM base AS packages
 
 WORKDIR /app/web
 
-# Copy package files with error handling
-COPY package.json ./
-# Use wildcard to handle missing pnpm-lock.yaml gracefully
-COPY pnpm-lock.yaml* ./
+COPY package.json .
+COPY pnpm-lock.yaml* .
 
 # if you located in China, you can use taobao registry to speed up
 # RUN pnpm install --frozen-lockfile --registry https://registry.npmmirror.com/
 
-# Install with fallback if no lockfile
-RUN if [ -f "pnpm-lock.yaml" ]; then \
-        echo "Using pnpm-lock.yaml for frozen install" && \
-        pnpm install --frozen-lockfile; \
-    else \
-        echo "No pnpm-lock.yaml found, installing without lockfile" && \
-        pnpm install; \
-    fi
+RUN if [ -f pnpm-lock.yaml ]; then pnpm install --frozen-lockfile; else pnpm install; fi
 
 # build resources
 FROM base AS builder
@@ -55,6 +46,7 @@ ENV MARKETPLACE_API_URL=https://marketplace.dify.ai
 ENV MARKETPLACE_URL=https://marketplace.dify.ai
 ENV PORT=3000
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV PM2_INSTANCES=2
 
 # set timezone
 ENV TZ=UTC
